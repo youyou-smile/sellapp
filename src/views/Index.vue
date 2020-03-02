@@ -1,24 +1,27 @@
 <template>
   <div id="index">
-    <div class="head">
+    <div class="head">    
       <!-- 头像加名字、配送等 -->
       <div class="avatar">
-        <div class="blur" :style="{background: 'url(' + seller.avatar + ') repeat-x rgba(0, 0, 0, 0.1)'}"></div>
+        <div class="blur"
+        :style="{backgroundImage: 'url(' + seller.avatar + ')'}">
+        </div>
         <div class="sellerInfo">
-          <img :src="seller.avatar" alt width="120px" height="120px" class='headImg'>
+          <img :src='seller.avatar' width="120px" height="120px" class='headImg'>
           <div class="avatar-right">
             <h1>
               <img src="../assets/imgs/brand@2x.png" alt="" width="32px" style="verticalAlign:middle">
               {{seller.name}}
             </h1>
-            <p>{{seller.description}}{{seller.deliveryTime}}分钟到达</p>
+            <p>{{seller.description}}{{seller.deliveryTime}}分钟送达</p>
             <p>
               <!-- 满减 -->
               <img src="../assets/imgs/decrease_1@2x.png" alt="" style="verticalAlign:middle" height="20px">
               {{seller.supports[0].description}}
+      
             </p>
           </div>
-          <p class="bulletin">{{seller.bulletin}}</p>
+          <p class="bulletin font12">{{seller.bulletin}}</p>
         </div>
       </div>
       <div class="nav">
@@ -33,12 +36,11 @@
         </p>
       </div>
     </div>
-
     <!-- 中间主要内容部分 -->
     <div class="main">
       <router-view></router-view>
     </div>
-    <div class="footer"></div>
+ 
   </div>
 </template>
 
@@ -49,40 +51,31 @@ import { getSeller } from "../api/api";
 export default {
   data() {
     return {
-      seller: {
-        id: 1,
-        name: "",
-        description: "",
-        deliveryTime: 1,
-        score: 1,
-        serviceScore: 1,
-        foodScore: 1,
-        rankRate: 1,
-        minPrice: 1,
-        deliveryPrice: 1,
-        ratingCount: 1,
-        sellCount: 1,
-        bulletin: "",
-        supports: [],
-        avatar: "",
-        pics: [],
-        infos: []
-      }
     };
   },
-  // 数据转换完就请求后端数据获取商家信息
+  // 数据转换完就请求后端数据获取商家信息,并将其存到VUEX仓库
   created() {
     getSeller().then(res => {
-      this.seller = res.data.data;
-      //   console.log(this.seller);
+      this.$store.commit('seller',res.data.data)
     });
+  },
+
+
+  // 把仓库里的商家信息数据取出来保存,用于页面渲染
+  computed:{
+    seller(){
+      return this.$store.state.seller;
+    }
   }
 };
 </script>
 
 <style lang="less">
 #index {
+   display: flex;
+   flex-direction: column;
   .head {
+    border-bottom: 1px solid #e6e6e6;
     height: 200px;
     .avatar {
       position: relative;
@@ -102,13 +95,13 @@ export default {
         padding-top: 20px;
         display: flex;
         height: 120px;
-        padding-left: 36px;
         align-items: center;
         h1{
           font-size: 18px;
           font-weight: bold;
         }
         .headImg{
+          margin-left: 36px;
           margin-right: 15px;
         }
         p{
@@ -135,9 +128,10 @@ export default {
       align-items: center;
     }
   }
+  .main{
+    flex: 1;
+  }
+
 }
 </style>
 
-.blur{
-        
-      }
