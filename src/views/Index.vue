@@ -1,10 +1,9 @@
 <template>
   <div id="index">
-    <div class="head">    
+    <div class="head">
       <!-- 头像加名字、配送等 -->
       <div class="avatar">
-        <div class="blur"
-        :style="{backgroundImage: 'url(' + seller.avatar + ')'}">
+        <div class="blur" :style="{backgroundImage: 'url(' + seller.avatar + ')'}">
         </div>
         <div class="sellerInfo">
           <img :src='seller.avatar' width="120px" height="120px" class='headImg'>
@@ -18,7 +17,7 @@
               <!-- 满减 -->
               <img src="../assets/imgs/decrease_1@2x.png" alt="" style="verticalAlign:middle" height="20px">
               {{seller.supports[0].description}}
-      
+
             </p>
           </div>
           <p class="bulletin font12">{{seller.bulletin}}</p>
@@ -37,10 +36,8 @@
       </div>
     </div>
     <!-- 中间主要内容部分 -->
-    <div class="main">
-      <router-view></router-view>
-    </div>
- 
+    <router-view></router-view>
+    <div class="block"></div>
   </div>
 </template>
 
@@ -49,21 +46,21 @@
 import { getSeller } from "../api/api";
 
 export default {
-  data() {
+  data () {
     return {
     };
   },
   // 数据转换完就请求后端数据获取商家信息,并将其存到VUEX仓库
-  created() {
+  created () {
     getSeller().then(res => {
-      this.$store.commit('seller',res.data.data)
+      this.$store.commit('seller', res.data.data)
     });
   },
 
 
   // 把仓库里的商家信息数据取出来保存,用于页面渲染
-  computed:{
-    seller(){
+  computed: {
+    seller () {
       return this.$store.state.seller;
     }
   }
@@ -72,15 +69,16 @@ export default {
 
 <style lang="less">
 #index {
-   display: flex;
-   flex-direction: column;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   .head {
     border-bottom: 1px solid #e6e6e6;
     height: 200px;
     .avatar {
       position: relative;
       height: 160px;
-      .blur{
+      .blur {
         height: 100%;
         width: 100%;
         -webkit-filter: blur(5px);
@@ -96,18 +94,18 @@ export default {
         display: flex;
         height: 120px;
         align-items: center;
-        h1{
+        h1 {
           font-size: 18px;
           font-weight: bold;
         }
-        .headImg{
+        .headImg {
           margin-left: 36px;
           margin-right: 15px;
         }
-        p{
+        p {
           font-size: 14px;
         }
-        .bulletin{
+        .bulletin {
           margin-left: -20px;
           padding-left: 23px;
           width: 100%;
@@ -116,8 +114,8 @@ export default {
           text-overflow: ellipsis;
           position: absolute;
           bottom: 0;
-          background: url('../assets/imgs/bulletin@2x.png') no-repeat 0px 9px;
-          background-size:20px;
+          background: url("../assets/imgs/bulletin@2x.png") no-repeat 0px 9px;
+          background-size: 20px;
         }
       }
     }
@@ -128,10 +126,11 @@ export default {
       align-items: center;
     }
   }
-  .main{
-    flex: 1;
-  }
-
+}
+.block {
+  height: 200px;
+  width: 100%;
+  background: green;
 }
 </style>
 

@@ -59,7 +59,12 @@ export default new Vuex.Store({
                arr.push(...(v.foods.filter(obj=>obj.num>0)));
            });
            return arr; //选出num大于0的foods下属对象
-       }
+       },
+    //    计算总价
+    //    total(){
+    //     var total=0;
+    //     this.
+    //    }
     }
 })
 

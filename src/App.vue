@@ -5,7 +5,7 @@
 </template>
 
 <style lang="less">
-body{
+html,body{
   height: 100%;
   width: 100%;
   #app{

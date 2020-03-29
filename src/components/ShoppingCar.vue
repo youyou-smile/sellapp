@@ -1,14 +1,14 @@
 <template>
   <div id="shopcarBar">
     <ul>
-      <li v-for="(obj,i) in this.shopped" :key="i">
+      <li v-for="(obj,index) in this.shopped" :key="index">
         <p v-show="obj.num">{{obj.name}}</p>
         <div class="edit" v-show="obj.num">
           <span style="color:red">¥10</span>
           <div class="num">
-            <button>-</button>
-            1
-            <button>+</button>
+            <button  @click="change(-1,obj.name)">-</button>
+            {{obj.num}}
+            <button  @click="change(1,obj.name)">+</button>
           </div>
         </div>
       </li>
@@ -24,6 +24,27 @@ export default {
 
   created() {
     // console.log(this.shopped)
+  },
+  // 点击事件
+  methods:{
+    change(n,val){
+     let i=0,
+      index=0;
+         
+         for(let k=0;k<this.list.length;k++){
+           for(let j=0;j<this.list[i].foods.length;j++){
+             if(this.list[k].foods[j].name==val){
+               i=k;
+               index=j;
+              //  console.listSub(i,shoppedSub)
+               var numBelong=this.list[i].foods[j].num+n;
+               this.$store.commit('num',{i,index,numBelong})
+             }
+           }
+         }
+    
+    }
+
   },
   // 计算属性
   computed: {
